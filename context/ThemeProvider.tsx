@@ -26,14 +26,24 @@ export function ThemeProvider({
   const [mode, setMode] = useState("dark");
 
   const handleThemeChange = () => {
-    if (mode === "dark") {
-      setMode("light");
-      document.documentElement.classList.add("light");
-    } else {
+    if (
+      localStorage.theme === "dark" ||
+      (!("theme" in localStorage) &&
+        window.matchMedia("(prefers-color-scheme: dark").matches)
+    ) {
       setMode("dark");
       document.documentElement.classList.add("dark");
+      document.documentElement.classList.remove("light");
+    } else {
+      setMode("light");
+      document.documentElement.classList.add("light");
+      document.documentElement.classList.remove("dark");
     }
   };
+
+  useEffect(() => {
+    handleThemeChange();
+  }, [mode]);
 
   return (
     <ThemeContext.Provider value={{ mode, setMode }}>
