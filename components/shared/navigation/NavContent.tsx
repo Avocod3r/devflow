@@ -1,11 +1,17 @@
 "use client";
-
+import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { sidebarLinks } from "@/constants";
 
-const NavContent = () => {
+type NavContentProps = {
+  isSideBar?: boolean;
+};
+
+const NavContent: React.FC<NavContentProps> = ({
+  isSideBar = false,
+}) => {
   const pathname = usePathname();
   return (
     <section className="flex h-full flex-col gap-6 pt-16">
@@ -33,7 +39,7 @@ const NavContent = () => {
               className={`${isActive ? "" : "invert-colors"}`}
             />
             <p
-              className={`${isActive ? "base-bold" : "base-medium"}`}
+              className={`${isActive ? "base-bold" : "base-medium"} ${isSideBar ? "max-lg:hidden" : ""}`}
             >
               {label}
             </p>
