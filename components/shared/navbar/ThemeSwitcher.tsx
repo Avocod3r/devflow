@@ -34,7 +34,7 @@ const ThemeSwitcher = () => {
           />
         )}
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="absolute -right-8 mt-3 min-w-[120px] rounded border py-2 dark:border-dark-400 dark:bg-dark-300">
+      <DropdownMenuContent className="background-light900_dark300 absolute -right-8 z-50 mt-3 min-w-[120px] rounded border py-2 dark:border-dark-400 ">
         {themes.map(({ label, value, icon }) => (
           <DropdownMenuItem
             className="flex items-center gap-4 px-2.5 py-2 dark:focus:bg-dark-400"
