@@ -7,77 +7,11 @@ import Link from "next/link";
 import React from "react";
 import QuestionCard from "@/components/card/QuestionCard";
 import NoResult from "@/components/shared/NoResult";
+import { getQuestions } from "@/lib/actions/question.action";
 
-const QuestionCardItems = [
-  {
-    _id: 1,
-    title:
-      "Best practices for data fetching in a Next.js application with Server-Side Rendering (SSR)?",
-    tags: [
-      {
-        _id: 1,
-        name: "Next.JS",
-      },
-      {
-        _id: 2,
-        name: "React",
-      },
-    ],
-    views: 14020,
-    answers: [],
-    upvotes: 1000,
-    createdAt: new Date("2024-01-04"),
-    author: {
-      _id: 1,
-      name: "Andrii Otroshenko",
-      picture: "/assets/images/default-logo.svg",
-    },
-  },
-  {
-    _id: 2,
-    title: "Redux Toolkit Not Updating State as Expected",
-    tags: [
-      {
-        _id: 3,
-        name: "Redux",
-      },
-      {
-        _id: 2,
-        name: "React",
-      },
-    ],
-    author: {
-      _id: 1,
-      name: "Andrii Otroshenko",
-      picture: "/assets/images/default-logo.svg",
-    },
-    views: 1567892,
-    answers: [], // Adjusted the structure to match Array<Object>
-    upvotes: 41982,
-    createdAt: new Date("2024-02-07"),
-  },
-  {
-    _id: 3,
-    title: "Async/Await Function Not Handling Errors Properly",
-    tags: [
-      {
-        _id: 4,
-        name: "Fetch",
-      },
-    ],
-    author: {
-      _id: 1,
-      name: "Andrii Otroshenko",
-      picture: "/assets/images/default-logo.svg",
-    },
-    views: 278,
-    answers: [], // Adjusted the structure to match Array<Object>
-    upvotes: 24,
-    createdAt: new Date("2024-03-24"),
-  },
-];
+const Home = async () => {
+  const { questions } = await getQuestions({});
 
-const Home = () => {
   return (
     <>
       <div className="flex w-full  flex-col-reverse justify-between gap-4 sm:flex-row sm:items-center">
@@ -110,8 +44,8 @@ const Home = () => {
       </div>
       <HomeFilters />
       <div className="mt-10 flex w-full flex-col gap-6">
-        {QuestionCardItems.length > 0 ? (
-          QuestionCardItems.map(
+        {questions.length > 0 ? (
+          questions.map(
             ({
               _id,
               title,
