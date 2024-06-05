@@ -63,7 +63,6 @@ const QuestionForm = ({ mongoUserId }: QuestionFormProps) => {
     } finally {
       setIsSumbitting(false);
     }
-    console.log(values);
   }
 
   const handleInputKeyDown = (
