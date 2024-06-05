@@ -14,7 +14,7 @@ import { themes } from "@/constants";
 const ThemeSwitcher = () => {
   const { mode, setMode } = useTheme();
   return (
-    <DropdownMenu className="relative border-none bg-transparent shadow-none">
+    <DropdownMenu>
       <DropdownMenuTrigger className="focus:bg-light-900 data-[state=open]:bg-light-900 dark:bg-dark-200 dark:data-[state=open]:bg-dark-200">
         {mode === "light" ? (
           <Image
