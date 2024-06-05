@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import NavContent from "../navigation/navContent";
+import NavContent from "@/components/shared/navigation/NavContent";
 import { SignedOut, SignedIn, useClerk } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";

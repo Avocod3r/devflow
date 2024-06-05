@@ -10,7 +10,7 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import NavContent from "@/components/shared/navigation/navContent";
+import NavContent from "@/components/shared/navigation/NavContent";
 
 const MobileNav = () => {
   return (
