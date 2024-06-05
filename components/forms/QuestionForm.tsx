@@ -158,8 +158,9 @@ const QuestionForm = ({ mongoUserId }: QuestionFormProps) => {
                       tinycomments_mode: "embedded",
                       tinycomments_author: "Author name",
 
-                      ai_request: (request, respondWith) =>
+                      ai_request: (_request: any, respondWith: any) =>
                         respondWith.string(() =>
+                          // eslint-disable-next-line prefer-promise-reject-errors
                           Promise.reject(
                             "See docs to implement AI Assistant"
                           )
