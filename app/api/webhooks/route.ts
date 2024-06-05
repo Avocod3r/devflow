@@ -10,7 +10,6 @@ import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   // You can find this in the Clerk Dashboard -> Webhooks -> choose the endpoint
-  // TODO: Add your webhook sercet to .env.local
   const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET;
 
   console.log("Webhook: ", WEBHOOK_SECRET);
@@ -60,58 +59,67 @@ export async function POST(req: Request) {
   const eventType = evt.type;
 
   if (eventType === "user.created") {
-    const {
-      id,
-      email_addresses: emailAddresses,
-      image_url: imageUrl,
-      username,
-      first_name: firstName,
-      last_name: lastName,
-    } = evt.data;
-    const mongoUser = await createUser({
-      clerkId: id,
-      name: `${firstName} ${lastName || ""}`,
-      username: username!,
-      email: emailAddresses[0].email_address,
-      picture: imageUrl,
-    });
+    // const {
+    //   id,
+    //   email_addresses: emailAddresses,
+    //   image_url: imageUrl,
+    //   username,
+    //   first_name: firstName,
+    //   last_name: lastName,
+    // } = evt.data;
 
-    return NextResponse.json({ message: "OK", user: mongoUser });
+    // console.log("username", username);
+    // const mongoUser = await createUser({
+    //   clerkId: id,
+    //   name: `${firstName} ${lastName || ""}`,
+    //   username: username!,
+    //   email: emailAddresses[0].email_address,
+    //   picture: imageUrl,
+    // });
+
+    const { id } = evt.data;
+    console.log("User Create ID: ", id);
+
+    return NextResponse.json({ message: "OK, created" });
   }
 
   if (eventType === "user.updated") {
-    const {
-      id,
-      email_addresses: emailAddresses,
-      image_url: imageUrl,
-      username,
-      first_name: firstName,
-      last_name: lastName,
-    } = evt.data;
+    // const {
+    //   id,
+    //   email_addresses: emailAddresses,
+    //   image_url: imageUrl,
+    //   username,
+    //   first_name: firstName,
+    //   last_name: lastName,
+    // } = evt.data;
 
-    const mongoUser = await updateUser({
-      clerkId: id,
-      updateData: {
-        name: `${firstName} ${lastName || ""}`,
-        username: username!,
-        email: emailAddresses[0].email_address,
-        picture: imageUrl,
-      },
-      path: `/profile/${id}`,
-    });
+    const { id } = evt.data;
 
-    return NextResponse.json({ message: "OK", user: mongoUser });
+    console.log("User Update ID, ", id);
+
+    // const mongoUser = await updateUser({
+    //   clerkId: id,
+    //   updateData: {
+    //     name: `${firstName} ${lastName || ""}`,
+    //     username: username!,
+    //     email: emailAddresses[0].email_address,
+    //     picture: imageUrl,
+    //   },
+    //   path: `/profile/${id}`,
+    // });
+
+    return NextResponse.json({ message: "OK, updated" });
   }
 
   if (eventType === "user.deleted") {
     const { id } = evt.data;
+    console.log("USER ID: ", id);
+    // const deletedUser = await deleteUser({
+    //   clerkId: id!,
+    // });
 
-    const deletedUser = await deleteUser({
-      clerkId: id!,
-    });
-
-    return NextResponse.json({ message: "OK", user: deletedUser });
+    return NextResponse.json({ message: "OK, deleted" });
   }
 
-  return new Response("", { status: 200 });
+  return NextResponse.json({ message: "OK" });
 }
