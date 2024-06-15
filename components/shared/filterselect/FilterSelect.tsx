@@ -13,16 +13,16 @@ type FilterSelectProps = {
     name: string;
     value: string;
   }[];
-  classNames: string;
-  containerClassNames: string;
+  classNames?: string;
+  containerClassNames?: string;
   filterName: string;
 };
 
 const FilterSelect = ({
   filterName,
   filters,
-  classNames,
-  containerClassNames,
+  classNames = "",
+  containerClassNames = "",
 }: FilterSelectProps) => {
   return (
     <div className={`relative ${containerClassNames}`}>
@@ -40,9 +40,6 @@ const FilterSelect = ({
               {name}
             </SelectItem>
           ))}
-
-          <SelectItem value="dark">Dark</SelectItem>
-          <SelectItem value="system">System</SelectItem>
         </SelectContent>
       </Select>
     </div>
