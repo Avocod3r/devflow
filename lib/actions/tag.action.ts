@@ -2,7 +2,11 @@
 
 import User from "@/database/user.model";
 import { connectToDatabase } from "../mongoose";
-import { GetTopInteractedTagsParams } from "./shared.types";
+import {
+  GetAllTagsParams,
+  GetTopInteractedTagsParams,
+} from "./shared.types";
+import Tag from "@/database/tag.model";
 
 export async function getTopInteractedTags(
   params: GetTopInteractedTagsParams
@@ -24,6 +28,21 @@ export async function getTopInteractedTags(
       { _id: "2", name: "tag2" },
       { _id: "3", name: "tag3" },
     ];
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+export async function getAllTags(params: GetAllTagsParams) {
+  try {
+    connectToDatabase();
+
+    // const { page = 1, filter, pageSize = 20, searchQuery } = params;
+
+    const tags = await Tag.find({});
+
+    return { tags };
   } catch (error) {
     console.log(error);
     throw error;
