@@ -1,10 +1,13 @@
 "use client";
 import React, { useState } from "react";
-import { Editor } from "@tinymce/tinymce-react";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import Image from "next/image";
+import { useRouter, usePathname } from "next/navigation";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Editor } from "@tinymce/tinymce-react";
 
+import { useTheme, useTheme } from "@/context/ThemeProvider";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -16,11 +19,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import Tag from "@/components/ui/tag";
 import { questionFormSchema } from "@/lib/validation";
-import Tag from "../ui/tag";
-import Image from "next/image";
 import { createQuestion } from "@/lib/actions/question.action";
-import { useRouter, usePathname } from "next/navigation";
 
 const type: any = "question";
 
@@ -29,6 +30,7 @@ type QuestionFormProps = {
 };
 
 const QuestionForm = ({ mongoUserId }: QuestionFormProps) => {
+  const { mode } = useTheme();
   const router = useRouter();
   const pathname = usePathname();
   const [isSubmitting, setIsSumbitting] = useState<boolean>(false);
@@ -146,6 +148,8 @@ const QuestionForm = ({ mongoUserId }: QuestionFormProps) => {
                       process.env.NEXT_PUBLIC_TINY_EDITOR_API_KEY
                     }
                     init={{
+                      skin: mode === "dark" ? "oxide-dark" : "oxide",
+                      content_css: mode,
                       height: 350,
                       menubar: false,
                       plugins:

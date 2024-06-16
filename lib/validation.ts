@@ -18,3 +18,9 @@ export const questionFormSchema = z.object({
     .min(1, { message: "You need add atleast 1 tag" })
     .max(3, { message: "Must be 3 or fewer tags" }),
 });
+
+export const AnswerSchema = z.object({
+  answer: z
+    .string()
+    .min(100, { message: "Must be 100 or more characters long" }),
+});
