@@ -149,7 +149,7 @@ const QuestionForm = ({ mongoUserId }: QuestionFormProps) => {
                       height: 350,
                       menubar: false,
                       plugins:
-                        "advlist autolink charmap codesample emoticons link lists searchreplace visualblocks checklist casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode advtemplate ai mentions tinycomments tableofcontents footnotes autocorrect typography inlinecss markdown",
+                        "advlist autolink charmap codesample emoticons link lists searchreplace visualblocks  linkchecker",
                       toolbar:
                         "undo redo | blocks | codesample |  bold italic forecolor | alignleft aligncenter alignright alignjustify |",
                       content_style:

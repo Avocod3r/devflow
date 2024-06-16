@@ -5,9 +5,9 @@ import {
   Space_Grotesk as SpaceGrotesk,
 } from "next/font/google";
 import type { Metadata } from "next";
+import { ThemeProvider } from "@/context/ThemeProvider";
 
 import "./globals.css";
-import { ThemeProvider } from "@/context/ThemeProvider";
 
 const inter = Inter({
   subsets: ["latin"],
