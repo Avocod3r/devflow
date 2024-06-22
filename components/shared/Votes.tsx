@@ -7,8 +7,8 @@ import {
 import {
   downvoteQuestion,
   upvoteQuestion,
+  toggleSaveQuestion,
 } from "@/lib/actions/question.action";
-import { toggleSaveQuestion } from "@/lib/actions/user.action";
 import { formatAndDivideNumber } from "@/lib/utils";
 import Image from "next/image";
 import { usePathname } from "next/navigation";

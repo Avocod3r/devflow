@@ -17,7 +17,7 @@ type QuestionCardProps = {
 
   views: number;
   answers: Array<Object>;
-  upvotes: number;
+  upvotes: string[];
 };
 
 const QuestionCard = ({
@@ -67,7 +67,7 @@ const QuestionCard = ({
         <Metric
           imgUrl="/assets/icons/like.svg"
           alt="Upvotes"
-          value={formatAndDivideNumber(upvotes)}
+          value={formatAndDivideNumber(upvotes.length)}
           title=" Votes"
           textStyles="small-medium text-dark400_light800"
         />
