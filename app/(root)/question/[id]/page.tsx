@@ -6,17 +6,14 @@ import Metric from "@/components/shared/Metric";
 import ParseHTML from "@/components/shared/ParseHTML";
 import AnswerForm from "@/components/forms/AnswerForm";
 import AllAnswers from "@/components/shared/AllAnswers";
+import Votes from "@/components/shared/Votes";
 import Tag from "@/components/ui/tag";
-import { formatAndDivideNumber, getTimeStamp } from "@/lib/utils";
 import { getQuestionById } from "@/lib/actions/question.action";
 import { getUserById } from "@/lib/actions/user.action";
-import Votes from "@/components/shared/Votes";
+import { formatAndDivideNumber, getTimeStamp } from "@/lib/utils";
+import { URLProps } from "@/types";
 
-const Page = async ({
-  params: { id: questionId },
-}: {
-  params: { id: string };
-}) => {
+const Page = async ({ params: { id: questionId } }: URLProps) => {
   const question = await getQuestionById({
     questionId,
   });

@@ -1,38 +1,31 @@
-import React from "react";
-import { auth } from "@clerk/nextjs/server";
-import FilterSelect from "@/components/shared/filterselect/FilterSelect";
-import LocalSearchbar from "@/components/shared/search/LocalSearchbar";
-import { QuestionFilters } from "@/constants/filters";
 import QuestionCard from "@/components/card/QuestionCard";
 import NoResult from "@/components/shared/NoResult";
-import { getSavedQuestions } from "@/lib/actions/question.action";
-import { redirect } from "next/navigation";
+import LocalSearchbar from "@/components/shared/search/LocalSearchbar";
+import { getQuestionsByTagId } from "@/lib/actions/question.action";
+import { URLProps } from "@/types";
 
-const Home = async () => {
-  const { userId: clerkId } = auth();
-  if (!clerkId) {
-    redirect("/sign-up");
-  }
-  const { questions } = await getSavedQuestions({ clerkId });
-
+const Page = async ({
+  params: { id: tagId },
+  searchParams,
+}: URLProps) => {
+  const { tagTitle, questions } = await getQuestionsByTagId({
+    tagId,
+    page: 1,
+    searchQuery: searchParams.q,
+  });
   return (
     <>
-      <h1 className="h1-bold text-dark100_light900">
-        Saved Questions
+      <h1 className="h1-bold text-dark100_light900 capitalize">
+        {tagTitle}
       </h1>
 
-      <div className="mt-11 flex justify-between gap-5 max-sm:flex-col sm:items-center">
+      <div className="mt-11 w-full">
         <LocalSearchbar
-          route="/collection"
+          route="/tags"
           iconPosition="left"
           imgSrc="/assets/icons/search.svg"
-          placeholder="Search for questions"
+          placeholder="Search tag questions"
           classNames="flex-1"
-        />
-        <FilterSelect
-          filterName="Filter questions"
-          filters={QuestionFilters}
-          classNames="min-h-[56px] sm:min-w-[170px]"
         />
       </div>
       <div className="mt-10 flex w-full flex-col gap-6">
@@ -52,7 +45,7 @@ const Home = async () => {
           ))
         ) : (
           <NoResult
-            title="There's no saved questions to show"
+            title="There's no  questions to show"
             description="Be the first to break the silence! 🚀 Ask a Question and
         kickstart the discussion. our query could be the next big
         thing others learn from. Get involved! 💡"
@@ -65,4 +58,4 @@ const Home = async () => {
   );
 };
 
-export default Home;
+export default Page;
