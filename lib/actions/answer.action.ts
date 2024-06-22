@@ -3,7 +3,6 @@ import { revalidatePath } from "next/cache";
 import Answer from "@/database/answer.model";
 import {
   AnswerVoteParams,
-  AnswerVoteParams,
   CreateAnswerParams,
   GetAnswersParams,
 } from "./shared.types";

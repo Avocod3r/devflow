@@ -7,7 +7,7 @@ import { useRouter, usePathname } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Editor } from "@tinymce/tinymce-react";
 
-import { useTheme, useTheme } from "@/context/ThemeProvider";
+import { useTheme } from "@/context/ThemeProvider";
 import { Button } from "@/components/ui/button";
 import {
   Form,

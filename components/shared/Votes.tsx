@@ -10,7 +10,7 @@ import {
 } from "@/lib/actions/question.action";
 import { formatAndDivideNumber } from "@/lib/utils";
 import Image from "next/image";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 type VotesProps = {
   type: "question" | "answer";
@@ -34,7 +34,7 @@ const Votes = ({
   downvotes,
 }: VotesProps) => {
   const path = usePathname();
-  const router = useRouter();
+  // const router = useRouter();
   const handleSave = () => {};
 
   const handleVote = async (action: "upvote" | "downvote") => {
