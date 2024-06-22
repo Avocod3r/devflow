@@ -15,11 +15,11 @@ type FilterSelectProps = {
   }[];
   classNames?: string;
   containerClassNames?: string;
-  filterName: string;
+  filterName?: string;
 };
 
 const FilterSelect = ({
-  filterName,
+  filterName = "Select a filter...",
   filters,
   classNames = "",
   containerClassNames = "",

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -16,9 +16,23 @@ import { Button } from "@/components/ui/button";
 import { AnswerSchema } from "@/lib/validation";
 import { useTheme } from "@/context/ThemeProvider";
 import Image from "next/image";
+import { createAnswer } from "@/lib/actions/answer.action";
+import { usePathname } from "next/navigation";
 
-const AnswerForm = () => {
+type AnswerFormProps = {
+  question: string;
+  questionId: string;
+  authorId: string;
+};
+
+const AnswerForm = ({
+  question,
+  questionId,
+  authorId,
+}: AnswerFormProps) => {
+  const editorRef = useRef(null);
   const { mode } = useTheme();
+  const pathname = usePathname();
   const [isSumbitting, setIsSubmitting] = useState(false);
   const form = useForm<z.infer<typeof AnswerSchema>>({
     resolver: zodResolver(AnswerSchema),
@@ -27,7 +41,30 @@ const AnswerForm = () => {
     },
   });
 
-  const handleCreateAnswer = (data) => {};
+  const handleCreateAnswer = async (
+    values: z.infer<typeof AnswerSchema>
+  ) => {
+    setIsSubmitting(true);
+    try {
+      await createAnswer({
+        content: values.answer,
+        author: JSON.parse(authorId),
+        question: JSON.parse(questionId),
+        path: pathname,
+      });
+
+      form.reset();
+
+      if (editorRef.current) {
+        const editor = editorRef.current as any;
+
+        editor.setContent("");
+      }
+    } catch (error) {
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
   return (
     <div>
       <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-center sm:gap-2">
@@ -43,7 +80,7 @@ const AnswerForm = () => {
             src="/assets/icons/stars.svg"
             width={12}
             height={12}
-            alt="Ai Answer"
+            alt="Stars"
           />
           Generate an AI Answer
         </Button>
@@ -62,6 +99,10 @@ const AnswerForm = () => {
                   <Editor
                     apiKey={
                       process.env.NEXT_PUBLIC_TINY_EDITOR_API_KEY
+                    }
+                    onInit={(_, editor) =>
+                      // @ts-ignore
+                      (editorRef.current = editor)
                     }
                     init={{
                       height: 350,

@@ -168,3 +168,8 @@ code {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
+
+p {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
