@@ -14,7 +14,6 @@ import {
   ToggleSaveQuestionParams,
 } from "./shared.types";
 import { revalidatePath } from "next/cache";
-import path from "path";
 
 export async function getQuestions(params: GetQuestionsParams) {
   try {
@@ -231,9 +230,9 @@ export async function getSavedQuestions(
 
     const {
       clerkId,
-      page = 1,
-      pageSize = 10,
-      filter,
+      // page = 1,
+      // pageSize = 10,
+      // filter,
       searchQuery,
     } = params;
 
