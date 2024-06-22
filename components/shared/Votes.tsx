@@ -8,6 +8,7 @@ import {
   downvoteQuestion,
   upvoteQuestion,
 } from "@/lib/actions/question.action";
+import { toggleSaveQuestion } from "@/lib/actions/user.action";
 import { formatAndDivideNumber } from "@/lib/utils";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -35,7 +36,13 @@ const Votes = ({
 }: VotesProps) => {
   const path = usePathname();
   // const router = useRouter();
-  const handleSave = () => {};
+  const handleSave = async () => {
+    await toggleSaveQuestion({
+      userId: JSON.parse(userId),
+      questionId: JSON.parse(itemId),
+      path,
+    });
+  };
 
   const handleVote = async (action: "upvote" | "downvote") => {
     if (!userId) return;
@@ -116,18 +123,16 @@ const Votes = ({
           </div>
         </div>
       </div>
-      <Image
-        src={
-          hasSaved
-            ? "/assets/icons/star-filled.svg"
-            : "/assets/icons/star-red.svg"
-        }
-        width={18}
-        height={18}
-        alt="Star"
-        className="cursor-pointer"
-        onClick={handleSave}
-      />
+      {type === "question" && (
+        <Image
+          src={`/assets/icons/${hasSaved ? "star-filled.svg" : "star-red.svg"}`}
+          width={18}
+          height={18}
+          alt="Star"
+          className="cursor-pointer"
+          onClick={handleSave}
+        />
+      )}
     </div>
   );
 };
