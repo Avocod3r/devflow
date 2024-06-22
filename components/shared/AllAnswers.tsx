@@ -1,12 +1,12 @@
 import React from "react";
-import FilterSelect from "./filterselect/FilterSelect";
-import { AnswerFilters } from "@/constants/filters";
-import { getAnswers } from "@/lib/actions/answer.action";
 import Link from "next/link";
 import Image from "next/image";
+import FilterSelect from "@/components/shared/filterselect/FilterSelect";
+import ParseHTML from "@/components/shared/ParseHTML";
+import Votes from "@/components/shared/Votes";
+import { getAnswers } from "@/lib/actions/answer.action";
 import { getTimeStamp } from "@/lib/utils";
-import ParseHTML from "./ParseHTML";
-import Votes from "./Votes";
+import { AnswerFilters } from "@/constants/filters";
 
 type AllAnswersProps = {
   questionId: string;

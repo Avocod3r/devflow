@@ -1,17 +1,18 @@
 "use client";
-
+import { useEffect } from "react";
+import Image from "next/image";
+import { usePathname, useRouter } from "next/navigation";
 import {
   downvoteAnswer,
   upvoteAnswer,
 } from "@/lib/actions/answer.action";
+import { viewQuestion } from "@/lib/actions/interaction.action";
 import {
   downvoteQuestion,
   upvoteQuestion,
   toggleSaveQuestion,
 } from "@/lib/actions/question.action";
 import { formatAndDivideNumber } from "@/lib/utils";
-import Image from "next/image";
-import { usePathname } from "next/navigation";
 
 type VotesProps = {
   type: "question" | "answer";
@@ -35,7 +36,7 @@ const Votes = ({
   downvotes,
 }: VotesProps) => {
   const path = usePathname();
-  // const router = useRouter();
+  const router = useRouter();
   const handleSave = async () => {
     await toggleSaveQuestion({
       userId: JSON.parse(userId),
@@ -43,6 +44,13 @@ const Votes = ({
       path,
     });
   };
+
+  useEffect(() => {
+    viewQuestion({
+      questionId: JSON.parse(itemId),
+      userId: userId ? JSON.parse(userId) : undefined,
+    });
+  }, [itemId, userId, path, router]);
 
   const handleVote = async (action: "upvote" | "downvote") => {
     if (!userId) return;
