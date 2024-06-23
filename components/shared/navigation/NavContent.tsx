@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import { useAuth } from "@clerk/nextjs";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -13,6 +14,7 @@ const NavContent: React.FC<NavContentProps> = ({
   isSideBar = false,
 }) => {
   const pathname = usePathname();
+  const { userId } = useAuth();
   return (
     <section className="flex h-full flex-col gap-6 pt-16">
       {sidebarLinks.map(({ route, imgURL, label }) => {
@@ -20,6 +22,13 @@ const NavContent: React.FC<NavContentProps> = ({
           (pathname.includes(route) && route.length > 1) ||
           pathname === route;
 
+        if (route === "/profile") {
+          if (userId) {
+            route = `${route}/${userId}`;
+          } else {
+            return null;
+          }
+        }
         return (
           <Link
             key={route}
