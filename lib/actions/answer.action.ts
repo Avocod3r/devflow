@@ -5,6 +5,7 @@ import {
   AnswerVoteParams,
   CreateAnswerParams,
   GetAnswersParams,
+  GetUserStatsParams,
 } from "./shared.types";
 import { connectToDatabase } from "../mongoose";
 import Question from "@/database/question.model";
@@ -124,6 +125,28 @@ export async function downvoteAnswer(params: AnswerVoteParams) {
     // Increment author's reputation
 
     revalidatePath(path);
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+export async function getUserAnswers(params: GetUserStatsParams) {
+  try {
+    connectToDatabase();
+
+    const { userId } = params;
+
+    const totalAnswers = await Answer.countDocuments({
+      author: userId,
+    });
+
+    const answers = await Answer.find({ author: userId })
+      .sort({ upvotes: -1 })
+      .populate("question", "_id title")
+      .populate("author", "_id clerkId name picture");
+
+    return { totalAnswers, answers };
   } catch (error) {
     console.log(error);
     throw error;

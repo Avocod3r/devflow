@@ -4,10 +4,10 @@ import { SignedIn } from "@clerk/nextjs";
 import { auth } from "@clerk/nextjs/server";
 import Stats from "@/components/shared/Stats";
 import ProfileLink from "@/components/shared/ProfileLink";
+import QuestionTab from "@/components/shared/QuestionTab";
 import { Button } from "@/components/ui/button";
 import {
   Tabs,
-  TabsContent,
   TabsContent,
   TabsList,
   TabsTrigger,
@@ -15,7 +15,7 @@ import {
 import { getUserInfo } from "@/lib/actions/user.action";
 import { getJoinedDate } from "@/lib/utils";
 import { URLProps } from "@/types";
-import QuestionTab from "@/components/shared/QuestionTab";
+import AnswerTab from "@/components/shared/AnswerTab";
 
 const Page = async ({ params, searchParams }: URLProps) => {
   const { userId: clerkId } = auth();
@@ -87,13 +87,33 @@ const Page = async ({ params, searchParams }: URLProps) => {
       <div className="mt-10 flex gap-10">
         <Tabs defaultValue="top-posts" className="flex-1">
           <TabsList className="background-light800_dark400 min-h-[42px] p-1">
-            <TabsTrigger value="top-posts">Top Posts</TabsTrigger>
-            <TabsTrigger value="answers">Answers</TabsTrigger>
+            <TabsTrigger value="top-posts" className="tab">
+              Top Posts
+            </TabsTrigger>
+            <TabsTrigger value="answers" className="tab">
+              Answers
+            </TabsTrigger>
           </TabsList>
-          <TabsContent value="top-posts">
-            <QuestionTab />
+          <TabsContent
+            value="top-posts"
+            className="flex w-full flex-col gap-6"
+          >
+            <QuestionTab
+              searchParams={searchParams}
+              clerkId={clerkId}
+              userId={user._id}
+            />
           </TabsContent>
-          <TabsContent value="answers">AnswerTab</TabsContent>
+          <TabsContent
+            value="answers"
+            className="flex w-full flex-col gap-6"
+          >
+            <AnswerTab
+              searchParams={searchParams}
+              clerkId={clerkId}
+              userId={user._id}
+            />
+          </TabsContent>
         </Tabs>
       </div>
     </>

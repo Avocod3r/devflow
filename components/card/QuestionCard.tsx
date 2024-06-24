@@ -6,6 +6,7 @@ import Metric from "../shared/Metric";
 
 type QuestionCardProps = {
   _id: number;
+  clerkId?: string | null;
   title: string;
   createdAt: Date;
   tags: { _id: number; name: string }[];
@@ -21,6 +22,7 @@ type QuestionCardProps = {
 };
 
 const QuestionCard = ({
+  clerkId,
   _id,
   title,
   createdAt,
