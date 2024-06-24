@@ -1,14 +1,16 @@
 "use server";
 import { revalidatePath } from "next/cache";
 import Answer from "@/database/answer.model";
+import Question from "@/database/question.model";
 import {
   AnswerVoteParams,
   CreateAnswerParams,
+  DeleteAnswerParams,
   GetAnswersParams,
   GetUserStatsParams,
-} from "./shared.types";
-import { connectToDatabase } from "../mongoose";
-import Question from "@/database/question.model";
+} from "@/lib/actions/shared.types";
+import { connectToDatabase } from "@/lib/mongoose";
+import Interaction from "@/database/interaction.model";
 
 export async function createAnswer(params: CreateAnswerParams) {
   try {
@@ -147,6 +149,32 @@ export async function getUserAnswers(params: GetUserStatsParams) {
       .populate("author", "_id clerkId name picture");
 
     return { totalAnswers, answers };
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+export async function deleteAnswer(params: DeleteAnswerParams) {
+  try {
+    connectToDatabase();
+
+    const { path, answerId } = params;
+
+    const answer = await Answer.findById(answerId);
+
+    if (!answer) {
+      throw new Error("Answer not found");
+    }
+
+    await answer.deleteOne({ _id: answerId });
+    await Question.updateMany(
+      { _id: answer.question },
+      { $pull: { answers: answerId } }
+    );
+    await Interaction.deleteMany({ answer: answerId });
+
+    revalidatePath(path);
   } catch (error) {
     console.log(error);
     throw error;
