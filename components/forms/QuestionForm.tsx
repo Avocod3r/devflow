@@ -29,7 +29,7 @@ import {
 type QuestionFormProps = {
   type?: "edit" | "create";
   mongoUserId: string;
-  questionDetails: string;
+  questionDetails?: string;
 };
 
 const QuestionForm = ({
@@ -40,7 +40,7 @@ const QuestionForm = ({
   const { mode } = useTheme();
   const router = useRouter();
   const pathname = usePathname();
-  const [isSubmiting, setIsSumbiting] = useState<boolean>(false);
+  const [isSubmitting, setIsSumbitting] = useState<boolean>(false);
 
   const parsedQuestionDetails = JSON.parse(questionDetails || "");
   const groupedTags = parsedQuestionDetails.tags.map(
@@ -59,7 +59,7 @@ const QuestionForm = ({
   async function onSubmit(
     values: z.infer<typeof questionFormSchema>
   ) {
-    setIsSumbiting(true);
+    setIsSumbitting(true);
 
     try {
       if (type === "edit") {
@@ -85,7 +85,7 @@ const QuestionForm = ({
       }
     } catch (error) {
     } finally {
-      setIsSumbiting(false);
+      setIsSumbitting(false);
     }
   }
 
@@ -258,9 +258,9 @@ const QuestionForm = ({
           <Button
             type="submit"
             className="primary-gradient w-fit !text-light-900"
-            disabled={isSubmiting}
+            disabled={isSubmitting}
           >
-            {isSubmiting ? (
+            {isSubmitting ? (
               <>{type === "edit" ? "Editing..." : "Posting..."}</>
             ) : (
               <>

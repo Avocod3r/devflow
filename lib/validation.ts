@@ -24,3 +24,11 @@ export const AnswerSchema = z.object({
     .string()
     .min(100, { message: "Must be 100 or more characters long" }),
 });
+
+export const ProfileSchema = z.object({
+  username: z.string().min(5).max(50),
+  name: z.string().min(5).max(50),
+  portfolioWebsite: z.string().url(),
+  location: z.string().min(5).max(50),
+  bio: z.string().min(10).max(150),
+});

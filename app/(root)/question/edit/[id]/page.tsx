@@ -1,8 +1,8 @@
+import { auth } from "@clerk/nextjs/server";
 import QuestionForm from "@/components/forms/QuestionForm";
 import { getQuestionById } from "@/lib/actions/question.action";
 import { getUserById } from "@/lib/actions/user.action";
 import { URLProps } from "@/types";
-import { auth } from "@clerk/nextjs/server";
 
 const Page = async ({ params }: URLProps) => {
   const { userId } = auth();
