@@ -1,7 +1,5 @@
-"use client";
-import React from "react";
-import TopQuestions from "./TopQuestions";
-import PopularTags from "./PopularTags";
+import TopQuestions from "@/components/shared/rightsidebar/TopQuestions";
+import PopularTags from "@/components/shared/rightsidebar/PopularTags";
 
 const RightSidebar = () => {
   return (

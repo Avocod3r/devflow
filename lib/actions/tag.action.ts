@@ -1,12 +1,12 @@
 "use server";
 
-import User from "@/database/user.model";
-import { connectToDatabase } from "../mongoose";
+import { connectToDatabase } from "@/lib/mongoose";
 import {
   GetAllTagsParams,
   GetTopInteractedTagsParams,
-} from "./shared.types";
+} from "@/lib/actions/shared.types";
 import Tag from "@/database/tag.model";
+import User from "@/database/user.model";
 
 export async function getTopInteractedTags(
   params: GetTopInteractedTagsParams
@@ -43,6 +43,28 @@ export async function getAllTags(params: GetAllTagsParams) {
     const tags = await Tag.find({});
 
     return { tags };
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+export async function getTopPopularTags() {
+  try {
+    connectToDatabase();
+
+    const popularTags = await Tag.aggregate([
+      {
+        $project: {
+          name: 1,
+          numberOfQuestions: { $size: "$questions" },
+        },
+      },
+      { $sort: { numberOfQuestions: -1 } },
+      { $limit: 5 },
+    ]);
+
+    return { popularTags };
   } catch (error) {
     console.log(error);
     throw error;

@@ -2,6 +2,7 @@
 import { revalidatePath } from "next/cache";
 import Answer from "@/database/answer.model";
 import Question from "@/database/question.model";
+import Interaction from "@/database/interaction.model";
 import {
   AnswerVoteParams,
   CreateAnswerParams,
@@ -10,7 +11,6 @@ import {
   GetUserStatsParams,
 } from "@/lib/actions/shared.types";
 import { connectToDatabase } from "@/lib/mongoose";
-import Interaction from "@/database/interaction.model";
 
 export async function createAnswer(params: CreateAnswerParams) {
   try {

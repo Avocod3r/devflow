@@ -1,6 +1,9 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
 import User from "@/database/user.model";
+import Question from "@/database/question.model";
+import Answer from "@/database/answer.model";
 import { connectToDatabase } from "@/lib/mongoose";
 import {
   CreateUserParams,
@@ -8,11 +11,7 @@ import {
   GetAllUsersParams,
   GetUserByIdParams,
   UpdateUserParams,
-} from "./shared.types";
-import { revalidatePath } from "next/cache";
-import Question from "@/database/question.model";
-import { Error } from "mongoose";
-import Answer from "@/database/answer.model";
+} from "@/lib/actions/shared.types";
 
 export async function getUserById(params: any) {
   try {
