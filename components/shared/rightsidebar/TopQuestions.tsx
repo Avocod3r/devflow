@@ -1,40 +1,16 @@
-import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { getHotQuestions } from "@/lib/actions/question.action";
 
-const topQuestions = [
-  {
-    _id: 1,
-    title:
-      "Would it be appropriate to point out an error in another paper during a referee report?",
-  },
-  {
-    _id: 2,
-    title: "How can an airconditioning machine exist?",
-  },
-  {
-    _id: 3,
-    title: "Interrogated every time crossing UK Border as citizen",
-  },
-  {
-    _id: 4,
-    title: "Low digit addition generator",
-  },
-  {
-    _id: 5,
-    title:
-      "What is an example of 3 numbers that do not make up a vector?",
-  },
-];
-
-const TopQuestions = () => {
+const TopQuestions = async () => {
+  const { hotQuestions } = await getHotQuestions();
   return (
     <div>
       <h3 className="h3-bold text-dark200_light900">Top questions</h3>
       <div className="mt-6 flex w-full flex-col gap-[30px]">
-        {topQuestions.map(({ _id, title }) => (
+        {hotQuestions.map(({ _id, title }) => (
           <Link
-            href={`/questions/${_id}`}
+            href={`/question/${_id}`}
             className="flex items-center justify-between gap-7"
             key={_id}
           >
