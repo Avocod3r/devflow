@@ -13,7 +13,7 @@ import {
   UpdateUserParams,
 } from "@/lib/actions/shared.types";
 
-export async function getUserById(params: any) {
+export async function getUserById(params: GetUserByIdParams) {
   try {
     connectToDatabase();
 

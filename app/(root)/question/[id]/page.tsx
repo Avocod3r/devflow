@@ -14,10 +14,10 @@ import { formatAndDivideNumber, getTimeStamp } from "@/lib/utils";
 import { URLProps } from "@/types";
 
 const Page = async ({ params: { id: questionId } }: URLProps) => {
+  const { userId } = auth();
   const question = await getQuestionById({
     questionId,
   });
-  const { userId } = auth();
 
   let mongoUser;
   if (userId) {
@@ -52,9 +52,9 @@ const Page = async ({ params: { id: questionId } }: URLProps) => {
               hasUpvoted={question.upvotes.includes(mongoUser?._id)}
               downvotes={question.downvotes.length}
               hasDownvoted={question.downvotes.includes(
-                mongoUser._id
+                mongoUser?._id
               )}
-              hasSaved={mongoUser.saved.includes(question?._id)}
+              hasSaved={mongoUser?.saved.includes(question?._id)}
             />
           </div>
         </div>
