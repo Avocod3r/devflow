@@ -1,4 +1,4 @@
-import React from "react";
+import { redirect } from "next/navigation";
 import { auth } from "@clerk/nextjs/server";
 import FilterSelect from "@/components/shared/filterselect/FilterSelect";
 import LocalSearchbar from "@/components/shared/search/LocalSearchbar";
@@ -6,14 +6,17 @@ import { QuestionFilters } from "@/constants/filters";
 import QuestionCard from "@/components/card/QuestionCard";
 import NoResult from "@/components/shared/NoResult";
 import { getSavedQuestions } from "@/lib/actions/question.action";
-import { redirect } from "next/navigation";
+import { SearchParamsProps } from "@/types";
 
-const Home = async () => {
+const Home = async ({ searchParams }: SearchParamsProps) => {
   const { userId: clerkId } = auth();
   if (!clerkId) {
     redirect("/sign-up");
   }
-  const { questions } = await getSavedQuestions({ clerkId });
+  const { questions } = await getSavedQuestions({
+    clerkId,
+    searchQuery: searchParams.q,
+  });
 
   return (
     <>
