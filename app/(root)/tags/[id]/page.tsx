@@ -21,7 +21,7 @@ const Page = async ({
 
       <div className="mt-11 w-full">
         <LocalSearchbar
-          route="/tags"
+          route={`/tags/${tagId}`}
           iconPosition="left"
           imgSrc="/assets/icons/search.svg"
           placeholder="Search tag questions"
