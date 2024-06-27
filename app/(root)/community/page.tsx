@@ -4,9 +4,12 @@ import FilterSelect from "@/components/shared/filterselect/FilterSelect";
 import LocalSearchbar from "@/components/shared/search/LocalSearchbar";
 import { UserFilters } from "@/constants/filters";
 import { getAllUsers } from "@/lib/actions/user.action";
+import { SearchParamsProps } from "@/types";
 
-const Page = async () => {
-  const { users } = await getAllUsers({});
+const Page = async ({ searchParams }: SearchParamsProps) => {
+  const { users } = await getAllUsers({
+    searchQuery: searchParams.q,
+  });
 
   return (
     <>
