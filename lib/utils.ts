@@ -1,8 +1,20 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
+import qs from "query-string";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
+}
+
+interface IFormUrlQuery {
+  params: string;
+  key: string;
+  value: string | null;
+}
+
+interface IRemoveKeysFromQuery {
+  params: string;
+  keysToRemove: string[];
 }
 
 export const getTimeStamp = (createdAt: Date): string => {
@@ -61,4 +73,41 @@ export const getJoinedDate = (date: Date): string => {
   const joinedDate = `${month} ${year}`;
 
   return joinedDate;
+};
+
+export const formUrlQuery = ({
+  params,
+  key,
+  value,
+}: IFormUrlQuery) => {
+  const currentUrl = qs.parse(params);
+
+  currentUrl[key] = value;
+
+  return qs.stringifyUrl(
+    {
+      url: window.location.pathname,
+      query: currentUrl,
+    },
+    { skipNull: true }
+  );
+};
+
+export const removeKeysFromQuery = ({
+  params,
+  keysToRemove,
+}: IRemoveKeysFromQuery) => {
+  const currentUrl = qs.parse(params);
+
+  keysToRemove.forEach((key) => {
+    delete currentUrl[key];
+  });
+
+  return qs.stringifyUrl(
+    {
+      url: window.location.pathname,
+      query: currentUrl,
+    },
+    { skipNull: true }
+  );
 };

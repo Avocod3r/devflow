@@ -8,9 +8,12 @@ import React from "react";
 import QuestionCard from "@/components/card/QuestionCard";
 import NoResult from "@/components/shared/NoResult";
 import { getQuestions } from "@/lib/actions/question.action";
+import { SearchParamsProps } from "@/types";
 
-const Home = async () => {
-  const { questions } = await getQuestions({});
+const Home = async ({ searchParams }: SearchParamsProps) => {
+  const { questions } = await getQuestions({
+    searchQuery: searchParams.q,
+  });
 
   return (
     <>

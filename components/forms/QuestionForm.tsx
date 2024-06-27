@@ -42,16 +42,19 @@ const QuestionForm = ({
   const pathname = usePathname();
   const [isSubmitting, setIsSumbitting] = useState<boolean>(false);
 
-  const parsedQuestionDetails = JSON.parse(questionDetails || "");
-  const groupedTags = parsedQuestionDetails.tags.map(
-    (tag: { _id: string; name: string }) => tag.name
-  );
+  const parsedQuestionDetails =
+    questionDetails && JSON.parse(questionDetails || "");
+  const groupedTags =
+    parsedQuestionDetails &&
+    parsedQuestionDetails?.tags.map(
+      (tag: { _id: string; name: string }) => tag.name
+    );
 
   const form = useForm<z.infer<typeof questionFormSchema>>({
     resolver: zodResolver(questionFormSchema),
     defaultValues: {
-      title: parsedQuestionDetails.title || "",
-      explanation: parsedQuestionDetails.content || "",
+      title: parsedQuestionDetails?.title || "",
+      explanation: parsedQuestionDetails?.content || "",
       tags: groupedTags || [],
     },
   });
@@ -191,7 +194,9 @@ const QuestionForm = ({
                           )
                         ),
                     }}
-                    initialValue={parsedQuestionDetails.content || ""}
+                    initialValue={
+                      parsedQuestionDetails?.content || ""
+                    }
                     onBlur={field.onBlur}
                     onEditorChange={(content) =>
                       field.onChange(content)
