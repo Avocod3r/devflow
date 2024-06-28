@@ -30,7 +30,7 @@ export const getTimeStamp = (createdAt: Date): string => {
 
   if (timeDifference < minute) {
     const seconds = Math.floor(timeDifference / 1000);
-    return `${seconds} ${seconds === 1 ? "second" : seconds} ago`;
+    return `${seconds} ${seconds === 1 ? "second" : "seconds"} ago`;
   } else if (timeDifference < hour) {
     const minutes = Math.floor(timeDifference / minute);
     return `${minutes} ${minutes === 1 ? "minute" : "minutes"} ago`;
