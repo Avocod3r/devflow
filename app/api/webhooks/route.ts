@@ -18,8 +18,6 @@ export async function POST(req: Request) {
     );
   }
 
-  console.log("WEBHOOK WORK");
-
   // Get the headers
   const headerPayload = headers();
   const svixId = headerPayload.get("svix-id");
