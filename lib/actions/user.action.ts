@@ -1,5 +1,6 @@
 "use server";
 
+import { FilterQuery } from "mongoose";
 import { revalidatePath } from "next/cache";
 import User from "@/database/user.model";
 import Question from "@/database/question.model";
@@ -12,7 +13,6 @@ import {
   GetUserByIdParams,
   UpdateUserParams,
 } from "@/lib/actions/shared.types";
-import { FilterQuery } from "mongoose";
 
 export async function getUserById(params: GetUserByIdParams) {
   try {
