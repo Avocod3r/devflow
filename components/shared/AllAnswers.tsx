@@ -12,7 +12,7 @@ type AllAnswersProps = {
   questionId: string;
   userId: string;
   totalAnswers: number;
-  page?: number;
+  page?: string;
   filter?: string;
 };
 
@@ -20,8 +20,14 @@ const AllAnswers = async ({
   questionId,
   userId,
   totalAnswers,
+  filter,
+  page = "1",
 }: AllAnswersProps) => {
-  const { answers } = await getAnswers({ questionId });
+  const { answers } = await getAnswers({
+    questionId,
+    sortBy: filter,
+    page: +page,
+  });
   return (
     <div className="mt-11">
       <div className="flex items-center justify-between">

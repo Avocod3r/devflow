@@ -7,7 +7,10 @@ import NoResult from "@/components/shared/NoResult";
 import { SearchParamsProps } from "@/types";
 
 const Page = async ({ searchParams }: SearchParamsProps) => {
-  const { tags } = await getAllTags({ searchQuery: searchParams.q });
+  const { tags } = await getAllTags({
+    searchQuery: searchParams.q,
+    filter: searchParams.filter,
+  });
 
   return (
     <>

@@ -13,7 +13,10 @@ import { getUserById } from "@/lib/actions/user.action";
 import { formatAndDivideNumber, getTimeStamp } from "@/lib/utils";
 import { URLProps } from "@/types";
 
-const Page = async ({ params: { id: questionId } }: URLProps) => {
+const Page = async ({
+  params: { id: questionId },
+  searchParams,
+}: URLProps) => {
   const { userId } = auth();
   const question = await getQuestionById({
     questionId,
@@ -97,6 +100,8 @@ const Page = async ({ params: { id: questionId } }: URLProps) => {
         userId={JSON.stringify(mongoUser?._id)}
         questionId={question?._id}
         totalAnswers={question.answers.length}
+        page={searchParams?.page}
+        filter={searchParams?.filter}
       />
       <AnswerForm
         question={question.content}
