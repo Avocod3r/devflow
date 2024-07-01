@@ -2,12 +2,12 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import FilterSelect from "@/components/shared/filterselect/FilterSelect";
+import Pagination from "@/components/shared/Pagination";
 import ParseHTML from "@/components/shared/ParseHTML";
 import Votes from "@/components/shared/Votes";
 import { getAnswers } from "@/lib/actions/answer.action";
 import { getTimeStamp } from "@/lib/utils";
 import { AnswerFilters } from "@/constants/filters";
-import Pagination from "./Pagination";
 
 type AllAnswersProps = {
   questionId: string;
