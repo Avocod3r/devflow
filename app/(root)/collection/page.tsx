@@ -2,9 +2,10 @@ import { redirect } from "next/navigation";
 import { auth } from "@clerk/nextjs/server";
 import FilterSelect from "@/components/shared/filterselect/FilterSelect";
 import LocalSearchbar from "@/components/shared/search/LocalSearchbar";
-import { QuestionFilters } from "@/constants/filters";
+import Pagination from "@/components/shared/Pagination";
 import QuestionCard from "@/components/card/QuestionCard";
 import NoResult from "@/components/shared/NoResult";
+import { QuestionFilters } from "@/constants/filters";
 import { getSavedQuestions } from "@/lib/actions/question.action";
 import { SearchParamsProps } from "@/types";
 
@@ -13,10 +14,12 @@ const Home = async ({ searchParams }: SearchParamsProps) => {
   if (!clerkId) {
     redirect("/sign-up");
   }
-  const { questions } = await getSavedQuestions({
+  const { questions, isNext } = await getSavedQuestions({
     clerkId,
     searchQuery: searchParams.q,
     filter: searchParams.filter,
+    page: searchParams.page ? +searchParams.page : 1,
+    pageSize: 10,
   });
 
   return (
@@ -64,6 +67,12 @@ const Home = async ({ searchParams }: SearchParamsProps) => {
             linkTitle="Ask a Question"
           />
         )}
+      </div>
+      <div className="mt-10">
+        <Pagination
+          pageNumber={searchParams?.page ? +searchParams.page : 1}
+          isNext={isNext}
+        />
       </div>
     </>
   );

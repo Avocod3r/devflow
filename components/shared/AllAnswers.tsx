@@ -7,6 +7,7 @@ import Votes from "@/components/shared/Votes";
 import { getAnswers } from "@/lib/actions/answer.action";
 import { getTimeStamp } from "@/lib/utils";
 import { AnswerFilters } from "@/constants/filters";
+import Pagination from "./Pagination";
 
 type AllAnswersProps = {
   questionId: string;
@@ -23,10 +24,11 @@ const AllAnswers = async ({
   filter,
   page = "1",
 }: AllAnswersProps) => {
-  const { answers } = await getAnswers({
+  const { answers, isNext } = await getAnswers({
     questionId,
     sortBy: filter,
     page: +page,
+    pageSize: 10,
   });
   return (
     <div className="mt-11">
@@ -88,6 +90,9 @@ const AllAnswers = async ({
               <ParseHTML data={answer.content} />
             </article>
           ))}
+      </div>
+      <div className="mt-10">
+        <Pagination pageNumber={+page} isNext={isNext} />
       </div>
     </div>
   );

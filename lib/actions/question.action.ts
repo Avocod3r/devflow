@@ -271,7 +271,15 @@ export async function getSavedQuestions(
   try {
     connectToDatabase();
 
-    const { clerkId, searchQuery, filter } = params;
+    const {
+      clerkId,
+      searchQuery,
+      filter,
+      page = 1,
+      pageSize = 20,
+    } = params;
+
+    const skipAmount = (page - 1) * pageSize;
 
     const query: FilterQuery<typeof Question> = searchQuery
       ? { title: { $regex: new RegExp(searchQuery, "i") } }
@@ -303,6 +311,8 @@ export async function getSavedQuestions(
       path: "saved",
       match: query,
       options: {
+        skip: skipAmount,
+        limit: pageSize + 1,
         sort: sortOptions,
       },
       populate: [
@@ -319,7 +329,9 @@ export async function getSavedQuestions(
       throw new Error("User not found");
     }
 
-    return { questions: user.saved };
+    const isNext = user.saved.length > pageSize;
+
+    return { questions: user.saved, isNext };
   } catch (error) {
     console.log(error);
     throw error;
@@ -332,12 +344,9 @@ export async function getQuestionsByTagId(
   try {
     connectToDatabase();
 
-    const {
-      tagId,
-      // page = 1,
-      // pageSize = 10,
-      searchQuery,
-    } = params;
+    const { tagId, page = 1, pageSize = 10, searchQuery } = params;
+
+    const skipAmount = (page - 1) * pageSize;
 
     const tagFilter: FilterQuery<ITag> = { _id: tagId };
 
@@ -349,6 +358,8 @@ export async function getQuestionsByTagId(
         : {},
       options: {
         sort: { createdAt: -1 },
+        limit: pageSize + 1,
+        skip: skipAmount,
       },
       populate: [
         { path: "tags", model: Tag, select: "_id name" },
@@ -364,7 +375,9 @@ export async function getQuestionsByTagId(
       throw new Error("User not found");
     }
 
-    return { tagTitle: tag.name, questions: tag.questions };
+    const isNext = tag.questions.length > pageSize;
+
+    return { tagTitle: tag.name, questions: tag.questions, isNext };
   } catch (error) {
     console.log(error);
     throw error;
@@ -375,18 +388,23 @@ export async function getUserQuestions(params: GetUserStatsParams) {
   try {
     connectToDatabase();
 
-    const { userId } = params;
+    const { userId, page = 1, pageSize = 5 } = params;
+
+    const skipAmount = (page - 1) * pageSize;
 
     const totalQuestions = await Question.countDocuments({
       author: userId,
     });
 
     const questions = await Question.find({ author: userId })
+      .skip(skipAmount)
+      .limit(pageSize)
       .sort({ views: -1, upvotes: -1 })
       .populate("tags", "_id name")
       .populate("author", "_id clerkId name picture");
 
-    return { totalQuestions, questions };
+    const isNext = totalQuestions > skipAmount + questions.length;
+    return { totalQuestions, questions, isNext };
   } catch (error) {
     console.log(error);
     throw error;
