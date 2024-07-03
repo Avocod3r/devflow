@@ -1,15 +1,10 @@
 "use client";
 import { useState } from "react";
-import {
-  usePathname,
-  useRouter,
-  useSearchParams,
-} from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { GlobalSearchFilters } from "@/constants/filters";
 import { formUrlQuery, removeKeysFromQuery } from "@/lib/utils";
 
 const GlobalFilters = () => {
-  const pathname = usePathname();
   const router = useRouter();
   const searchParams = useSearchParams();
   const typeParams = searchParams.get("type");
