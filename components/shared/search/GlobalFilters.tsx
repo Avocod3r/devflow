@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { GlobalSearchFilters } from "@/constants/filters";
-import { formUrlQuery, removeKeysFromQuery } from "@/lib/utils";
+import { formUrlQuery } from "@/lib/utils";
 
 const GlobalFilters = () => {
   const router = useRouter();
@@ -13,9 +13,10 @@ const GlobalFilters = () => {
   const handleClick = (type: string) => {
     if (activeType === type) {
       setActiveType("");
-      const newUrl = removeKeysFromQuery({
+      const newUrl = formUrlQuery({
         params: searchParams.toString(),
-        keysToRemove: ["type"],
+        key: "type",
+        value: null,
       });
 
       router.push(newUrl, { scroll: false });
