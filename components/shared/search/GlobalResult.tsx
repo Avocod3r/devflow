@@ -5,51 +5,56 @@ import Link from "next/link";
 import Image from "next/image";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import GlobalFilters from "@/components/shared/search/GlobalFilters";
+import { globalSearch } from "@/lib/actions/general.action";
 
 const GlobalResult = () => {
   const searchParams = useSearchParams();
   const [isLoading, setIsLoading] = useState(false);
-  const [result, setResult] = useState([
-    {
-      type: "question",
-      id: 1,
-      title: "Next.JS searcParams underrated",
-    },
-    {
-      type: "tag",
-      id: 2,
-      title: "Next.JS",
-    },
-    {
-      type: "user",
-      id: 3,
-      title: "avocoder",
-    },
-  ]);
+  const [result, setResult] = useState([]);
 
   const globalQuery = searchParams.get("global");
   const typeQuery = searchParams.get("type");
 
   useEffect(() => {
     setIsLoading(true);
-    setIsLoading(false);
     setResult([]);
-    // const fetchResult = async () => {
-    //   setResult([]);
-    //   setIsLoading(true);
-    //   try {
-    //     // FETCH result
-    //   } catch (error) {
-    //     console.log(error);
-    //     throw new Error();
-    //   } finally {
-    //     setIsLoading(false);
-    //   }
-    // };
+    const fetchResult = async () => {
+      setResult([]);
+      setIsLoading(true);
+      try {
+        // FETCH result
+        const res = await globalSearch({
+          query: globalQuery,
+          type: typeQuery,
+        });
+
+        setResult(JSON.parse(res));
+      } catch (error) {
+        console.log(error);
+        throw error;
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    if (globalQuery) {
+      fetchResult();
+    }
   }, [globalQuery, typeQuery]);
 
   const renderLink = (type: string, id: string) => {
-    return "/";
+    switch (type) {
+      case "question":
+        return `/question/${id}`;
+      case "answer":
+        return `/question/${id}`;
+      case "user":
+        return `/profile/${id}`;
+      case "tag":
+        return `/tags/${id}`;
+      default:
+        return "/";
+    }
   };
 
   return (
@@ -73,7 +78,7 @@ const GlobalResult = () => {
               result.map((item: any, index: number) => (
                 <Link
                   key={item.type + item.id + index}
-                  href={renderLink("type", "itemId")}
+                  href={renderLink(item.type, item.id)}
                   className="flex w-full cursor-pointer items-start gap-3 px-5 py-2.5 hover:bg-light-700/50 dark:hover:bg-dark-500/50"
                 >
                   <Image
