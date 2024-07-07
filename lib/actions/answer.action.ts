@@ -11,6 +11,7 @@ import {
   GetUserStatsParams,
 } from "@/lib/actions/shared.types";
 import { connectToDatabase } from "@/lib/mongoose";
+import User from "@/database/user.model";
 
 export async function createAnswer(params: CreateAnswerParams) {
   try {
@@ -23,11 +24,25 @@ export async function createAnswer(params: CreateAnswerParams) {
     });
 
     // Add the answer to the question's answers array
-    await Question.findByIdAndUpdate(question, {
-      $push: { answers: newAnswer._id },
+    const questionResult = await Question.findByIdAndUpdate(
+      question,
+      {
+        $push: { answers: newAnswer._id },
+      }
+    );
+
+    // Add interaction
+    await Interaction.create({
+      user: author,
+      action: "answer",
+      questionResult,
+      answer: newAnswer._id,
+      tags: questionResult.tags,
     });
 
-    // TODO: Add interaction...
+    await User.findByIdAndUpdate(author, {
+      $inc: { reputation: 10 },
+    });
 
     revalidatePath(path);
   } catch (error) {
@@ -114,6 +129,13 @@ export async function upvoteAnswer(params: AnswerVoteParams) {
     }
 
     // Increment author's reputation
+    await User.findByIdAndUpdate(userId, {
+      $inc: { reputation: hasUpvoted ? -2 : 2 },
+    });
+
+    await User.findByIdAndUpdate(answer.author, {
+      $inc: { reputation: hasUpvoted ? -10 : 10 },
+    });
 
     revalidatePath(path);
   } catch (error) {
