@@ -1,15 +1,14 @@
+import Link from "next/link";
 import FilterSelect from "@/components/shared/filterselect/FilterSelect";
 import LocalSearchbar from "@/components/shared/search/LocalSearchbar";
 import HomeFilters from "@/components/home/HomeFilters";
 import { Button } from "@/components/ui/button";
-import { HomePageFilters } from "@/constants/filters";
-import Link from "next/link";
-import React from "react";
 import QuestionCard from "@/components/card/QuestionCard";
 import NoResult from "@/components/shared/NoResult";
+import Pagination from "@/components/shared/Pagination";
+import { HomePageFilters } from "@/constants/filters";
 import { getQuestions } from "@/lib/actions/question.action";
 import { SearchParamsProps } from "@/types";
-import Pagination from "@/components/shared/Pagination";
 
 const Home = async ({ searchParams }: SearchParamsProps) => {
   const { questions, isNext } = await getQuestions({
