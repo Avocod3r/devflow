@@ -25,6 +25,7 @@ import {
   createQuestion,
   editQuestion,
 } from "@/lib/actions/question.action";
+import { toast } from "../ui/use-toast";
 
 type QuestionFormProps = {
   type?: "edit" | "create";
@@ -73,6 +74,9 @@ const QuestionForm = ({
           path: pathname,
         });
         router.push(`/question/${parsedQuestionDetails._id}`);
+        return toast({
+          title: "Question successful edited!",
+        });
       } else {
         // make async call to API => create a question
         // contain all form data
@@ -85,6 +89,9 @@ const QuestionForm = ({
         });
         // navigate to home page
         router.push("/");
+        return toast({
+          title: "Question successful created!",
+        });
       }
     } catch (error) {
     } finally {

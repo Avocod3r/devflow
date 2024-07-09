@@ -1,9 +1,12 @@
 "use client";
 import React, { useRef, useState } from "react";
+import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Editor } from "@tinymce/tinymce-react";
+import { useTheme } from "@/context/ThemeProvider";
 import {
   Form,
   FormControl,
@@ -13,11 +16,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
+import { toast } from "@/components/ui/use-toast";
 import { AnswerSchema } from "@/lib/validation";
-import { useTheme } from "@/context/ThemeProvider";
-import Image from "next/image";
 import { createAnswer } from "@/lib/actions/answer.action";
-import { usePathname } from "next/navigation";
 
 type AnswerFormProps = {
   question: string;
@@ -61,6 +62,9 @@ const AnswerForm = ({
 
         editor.setContent("");
       }
+      return toast({
+        title: "Answer successful created!",
+      });
     } catch (error) {
     } finally {
       setIsSubmitting(false);
@@ -88,8 +92,6 @@ const AnswerForm = ({
         const editor = editorRef.current as any;
         editor.setContent(formattedAnswer);
       }
-
-      // TODO: toast notification
     } catch (error) {
       console.log(error);
       throw error;

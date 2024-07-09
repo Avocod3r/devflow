@@ -16,6 +16,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { toast } from "@/components/ui/use-toast";
 import { ProfileSchema } from "@/lib/validation";
 import { updateUser } from "@/lib/actions/user.action";
 
@@ -62,6 +63,9 @@ const ProfileForm = ({ clerkId, user }: ProfileFormProps) => {
         path: pathname,
       });
       router.back();
+      return toast({
+        title: "User information was updated!",
+      });
     } catch (error) {
       console.log(error);
       throw error;
