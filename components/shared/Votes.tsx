@@ -47,7 +47,6 @@ const Votes = ({
 
     return toast({
       title: `Question ${!hasSaved ? "Saved in" : "Removed from"} your collection`,
-      variant: !hasSaved ? "default" : "destructive",
     });
   };
 
@@ -87,7 +86,6 @@ const Votes = ({
 
       return toast({
         title: `Upvote ${!hasUpvoted ? "Successful" : "Removed"}`,
-        variant: !hasUpvoted ? "default" : "destructive",
       });
     } else if (action === "downvote") {
       if (type === "question") {
@@ -109,7 +107,6 @@ const Votes = ({
       }
       return toast({
         title: `Downvote ${!hasDownvoted ? "Successful" : "Removed"}`,
-        variant: !hasDownvoted ? "default" : "destructive",
       });
     }
   };
