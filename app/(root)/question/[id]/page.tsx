@@ -109,7 +109,7 @@ const Page = async ({
         )}
       </div>
       <AllAnswers
-        userId={JSON.stringify(mongoUser?._id)}
+        userId={JSON.stringify(mongoUser?._id || "")}
         questionId={question?._id}
         totalAnswers={question.answers.length}
         page={searchParams?.page}
@@ -117,8 +117,8 @@ const Page = async ({
       />
       <AnswerForm
         question={question.content}
-        questionId={JSON.stringify(question?._id)}
-        authorId={JSON.stringify(mongoUser?._id)}
+        questionId={JSON.stringify(question?._id || "")}
+        authorId={JSON.stringify(mongoUser?._id || "")}
       />
     </>
   );
