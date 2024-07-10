@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { SignedIn } from "@clerk/nextjs";
@@ -16,6 +17,10 @@ import { getUserInfo } from "@/lib/actions/user.action";
 import { getJoinedDate } from "@/lib/utils";
 import { URLProps } from "@/types";
 import AnswerTab from "@/components/shared/AnswerTab";
+
+export const metadata: Metadata = {
+  title: "Profile | Dev Overflow",
+};
 
 const Page = async ({ params, searchParams }: URLProps) => {
   const { userId: clerkId } = auth();

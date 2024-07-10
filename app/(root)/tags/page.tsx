@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import FilterSelect from "@/components/shared/filterselect/FilterSelect";
 import LocalSearchbar from "@/components/shared/search/LocalSearchbar";
 import Pagination from "@/components/shared/Pagination";
@@ -6,6 +7,10 @@ import TagCard from "@/components/card/TagCard";
 import { getAllTags } from "@/lib/actions/tag.action";
 import { TagFilters } from "@/constants/filters";
 import { SearchParamsProps } from "@/types";
+
+export const metadata: Metadata = {
+  title: "Tags | Dev Overflow",
+};
 
 const Page = async ({ searchParams }: SearchParamsProps) => {
   const { tags, isNext } = await getAllTags({

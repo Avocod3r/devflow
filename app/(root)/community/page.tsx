@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import UserCard from "@/components/card/UserCard";
 import Pagination from "@/components/shared/Pagination";
@@ -6,6 +7,10 @@ import FilterSelect from "@/components/shared/filterselect/FilterSelect";
 import LocalSearchbar from "@/components/shared/search/LocalSearchbar";
 import { getAllUsers } from "@/lib/actions/user.action";
 import { SearchParamsProps } from "@/types";
+
+export const metadata: Metadata = {
+  title: "Community | Dev Overflow",
+};
 
 const Page = async ({ searchParams }: SearchParamsProps) => {
   const { users, isNext } = await getAllUsers({

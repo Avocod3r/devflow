@@ -1,9 +1,22 @@
+import type { Metadata } from "next";
 import QuestionCard from "@/components/card/QuestionCard";
 import NoResult from "@/components/shared/NoResult";
 import Pagination from "@/components/shared/Pagination";
 import LocalSearchbar from "@/components/shared/search/LocalSearchbar";
 import { getQuestionsByTagId } from "@/lib/actions/question.action";
 import { URLProps } from "@/types";
+
+export async function generateMetadata({
+  params,
+}: URLProps): Promise<Metadata> {
+  const tagId = params.id;
+
+  const { tagTitle } = await getQuestionsByTagId({ tagId });
+
+  return {
+    title: `${tagTitle.toUpperCase()} | Dev Overflow`,
+  };
+}
 
 const Page = async ({
   params: { id: tagId },
@@ -18,7 +31,7 @@ const Page = async ({
   return (
     <>
       <h1 className="h1-bold text-dark100_light900 capitalize">
-        {tagTitle}
+        {tagTitle.toUpperCase()}
       </h1>
 
       <div className="mt-11 w-full">

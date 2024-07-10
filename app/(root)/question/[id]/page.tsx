@@ -1,4 +1,4 @@
-import React from "react";
+import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { auth } from "@clerk/nextjs/server";
@@ -12,6 +12,18 @@ import { getQuestionById } from "@/lib/actions/question.action";
 import { getUserById } from "@/lib/actions/user.action";
 import { formatAndDivideNumber, getTimeStamp } from "@/lib/utils";
 import { URLProps } from "@/types";
+
+export async function generateMetadata({
+  params,
+}: URLProps): Promise<Metadata> {
+  const questionId = params.id;
+
+  const { title } = await getQuestionById({ questionId });
+
+  return {
+    title: `${title} | Dev Overflow`,
+  };
+}
 
 const Page = async ({
   params: { id: questionId },

@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import FilterSelect from "@/components/shared/filterselect/FilterSelect";
 import LocalSearchbar from "@/components/shared/search/LocalSearchbar";
@@ -9,6 +10,10 @@ import Pagination from "@/components/shared/Pagination";
 import { HomePageFilters } from "@/constants/filters";
 import { getQuestions } from "@/lib/actions/question.action";
 import { SearchParamsProps } from "@/types";
+
+export const metadata: Metadata = {
+  title: "Home | Dev Overflow",
+};
 
 const Home = async ({ searchParams }: SearchParamsProps) => {
   const { questions, isNext } = await getQuestions({

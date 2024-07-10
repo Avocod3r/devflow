@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { auth } from "@clerk/nextjs/server";
 import FilterSelect from "@/components/shared/filterselect/FilterSelect";
@@ -8,6 +9,10 @@ import NoResult from "@/components/shared/NoResult";
 import { QuestionFilters } from "@/constants/filters";
 import { getSavedQuestions } from "@/lib/actions/question.action";
 import { SearchParamsProps } from "@/types";
+
+export const metadata: Metadata = {
+  title: "Collection | Dev Overflow",
+};
 
 const Home = async ({ searchParams }: SearchParamsProps) => {
   const { userId: clerkId } = auth();
